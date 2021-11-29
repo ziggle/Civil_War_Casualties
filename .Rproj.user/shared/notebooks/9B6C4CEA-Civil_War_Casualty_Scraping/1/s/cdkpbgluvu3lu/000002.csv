@@ -1,0 +1,6 @@
+"0","zxc = tibble(General=cnf)"
+"0","zxd = tibble(General=uni)"
+"0",""
+"0","lee = clean[sapply(zxc, function(x) grepl(""E. Lee"",x)),]"
+"0","grant=clean[sapply(zxd, function(x) grepl(""Grant"",x)),]"
+"0",""

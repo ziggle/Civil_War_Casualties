@@ -1,0 +1,15 @@
+Belmont	641	01
+Fort Henry/Fort Donelson	16000	2832
+Shiloh 	10694	13147
+Iuka 	1600	790
+Corinth/Hatchie River	6527	120
+Vicksburg Campaign	40718	9362
+Return to Jackson	1340	1122
+Chattanooga	6667	5814
+Wilderness	11125	17666
+Spotsylvania Court House	13421	18399
+North Anna River, etc.	3766	3986
+Cold Harbor	4595	12737
+Petersburg Assaults	4000	11386
+Petersburg Siege/Campaign	28000	42000
+Appomattox Campaign	41666	10780

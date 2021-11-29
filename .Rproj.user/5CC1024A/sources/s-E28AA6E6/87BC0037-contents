@@ -1,0 +1,119 @@
+---
+title: "Scraper"
+author: "Mark Biegert"
+date: "3/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rvest)
+library(tidyverse)
+library(kableExtra)
+library(flextable)
+```
+# US Task Force 3 at Surigao Straits
+I have grabbed the list of the thirteen Taffy 3 warships from the [Naval History and Heritage Command](https://www.history.navy.mil/browse-by-topic/wars-conflicts-and-operations/world-war-ii/1944/samar.html) website, which gave the names but no displacement or class information. I decided to scrape that information from the Wikipedia. The thirteen ships are:
+
+<ol>
+<li> Heermann (DD-532)</li>
+<li> Hoel (DD-533)</li>
+<li> Johnston (DD-557)</li>
+<li> Dennis (DE-405)
+<li> John C. Butler (DE-339)</li>
+<li> Raymond (DE-341)</li>
+<li> Samuel B. Roberts (DE-413)</li>
+<li> Fanshaw Bay (CVE-70)</li>
+<li> Gambier Bay (CVE-73)</li>
+<li> Kalinin Bay (CVE-68)</li>
+<li> Kitkun Bay (CVE-71)</li>
+<li> St. Lo (CVE-63)</li>
+<li> White Plains (CVE-66)</li>
+</ol>
+
+``` {r build_links, echo=F}
+# ships = c(
+# "Heermann (DD-532)",
+# "Hoel (DD-533)",
+# "Johnston (DD-557)",
+# "Dennis (DE-405)",
+# "John C. Butler (DE-339)",
+# "Raymond (DE-341)",
+# "Samuel B. Roberts (DE-413)",
+# "Fanshaw Bay (CVE-70)",
+# "Gambier Bay (CVE-73)",
+# "Kalinin Bay (CVE-68)",
+# "Kitkun Bay (CVE-71)",
+# "St. Lo (CVE-63)",
+# "White Plains (CVE-66)"
+# )
+# df =data.frame(Name=ships) %>% mutate(Link=str_replace_all(paste0("https://en.wikipedia.org/wiki/USS ",ships)," ","_"))
+```
+
+# Extract the Class and Displacement Information
+The following section extracts the the class and displacement information from the Wikipedia. I need to state that the Wikipedia information on the ship displacements is inconsistent:
+
+* some entries state long tons, some just tons.
+* ships of the same class have different displacements because the states of the ships are different, e.g. standard load versus full load.
+* some entries erroneously state short tons when it should be long tons.
+
+For the purpose of this exercise, the exact values are not important. I am just trying to illustrate how to scrape a website.<br><br>
+
+```{r extract, echo=F}
+  info <- read_html("https://www.cia.gov/the-world-factbook/countries/curacao") 
+  x=info %>% html_nodes(xpath='//p[contains(text(),"sq km")]') %>%
+        html_text()
+  y=info %>% html_nodes(xpath='//p[preceding-sibling::h3 = "Population"]') %>%
+        html_text()
+print(x)
+print(y)
+
+
+# SA =str_extract(info, "Sail Area: \\d+")
+# SA=SA[!is.na(SA)]
+# LWL = str_extract(info, 'LWL: .*?"')
+# LWL = LWL[!is.na(LWL)]
+# Disp = str_extract(info, "Displacement: .*?lbs")
+# Disp = Disp[!is.na(Disp)]
+# print(info)
+# print(SA)
+# print(LWL)
+# print(Disp)
+
+# xtract = function(x){
+#   info <- read_html(x) %>% 
+#         html_nodes(xpath="//table[contains(@class, 'infobox')]/tbody/tr") %>%
+#         html_text()
+#   disp_str=info[str_detect(info,"Displacement")]
+#   disp    = disp_str %>%str_extract("[0-9,]+") %>%  str_replace(",","") %>% as.numeric[]
+#   long      = disp_str %>% str_detect("long")
+#   class_str = info[str_detect(info,"Class")]
+#   class     = sub('.*\n',"",class_str)
+#   return(list("Disp"=disp, "Unit"=long, "Class"=class))
+# }
+#extraction = lapply(df$Link,xtract)
+```
+
+
+```{r cleanup, echo=F}
+src<- df %>% 
+      mutate( Disp  = unlist(lapply(extraction, "[[","Disp")),
+              Long  = unlist(lapply(extraction, "[[","Unit")),
+              Class = unlist(lapply(extraction, "[[","Class")),
+              Displacement = ifelse(Long, Disp, round(Disp*2000/2240))
+            ) %>% 
+      select(-Link, -Disp, -Long) %>% 
+      separate(col=Name,sep="\\(", into=c("Name","Hull")) %>%
+      mutate( Hull = str_remove(Hull, "\\)")) 
+
+func <- function(z) if (is.numeric(z)) sum(z) else ''
+src1 <- rbind(src, # add summary row 
+             c("Grand Total","", "", sum(src$Displacement)))
+z = src1 %>% regulartable()%>%autofit()
+z = set_caption(z,caption="Table 1: List of Taffy 3 Ships.")
+z
+```
+```{r}
+colnames(mtcars)
+distinct(mtcars,cyl, .keep_all=TRUE)
+```

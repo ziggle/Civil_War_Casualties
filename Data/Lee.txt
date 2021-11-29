@@ -1,0 +1,26 @@
+Seven Days	20000	16000
+Cedar Mountain	1300	2400
+Second Manassas	9500	14400
+Chantilly	800	1300
+Harpers Ferry	286	11783
+Crampton's Gap and South Mountain	3434	2346
+Antietem/Sharpsburg	11500	12400
+Fredericksburg	4201	12653
+Kelly's Ford	133	78
+Chancellorsville	12764	17287
+Brandy Station	523	866
+Winchester (June 1863)	269	4443
+Aldie, Middleburg, Upperville	510	613
+Hanover	150	200
+Gettysburg	28000	23000
+Retreat from Gettysburg	5000	1000
+Bristoe Station	1378	546 
+Kelly's Ford and Rappahannock Station	2000	400
+Mine Run	601	1653
+Wilderness	11125	17666
+Spotsylvania Court House	13421	18399
+North Anna River, etc	3766	3986
+Cold Harbor	 4595	12737
+Petersburg Assaults	4000	11386
+Petersburg Siege/Campaign	28000	42000
+Appomattox Campaign	41666	10780

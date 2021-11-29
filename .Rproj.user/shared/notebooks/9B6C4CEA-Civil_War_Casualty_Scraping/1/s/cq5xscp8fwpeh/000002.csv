@@ -1,0 +1,2 @@
+"0",""
+"0","incidents = read.csv(""https://raw.githubusercontent.com/jrnold/acw_battle_data/master/build/acw_battle_data/wikipedia_forces.csv"", header=TRUE,stringsAsFactors=F)"
